@@ -1,31 +1,54 @@
 from django.shortcuts import render, reverse, HttpResponseRedirect
-from django.contrib.auth import login, authenticate, logout
-from django.contrib.auth.models import User
 from hierarchical.models import File
 from hierarchical.forms import TreeForm
+from django.views import View
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 
-def show_files(request):
-    files = File.objects.all()
-    return render(request, "files.html", {'files': files})
+class FilesView(View):
+    html = "files.html"
+
+    def get(self, request):
+        files = File.objects.all()
+        return render(request, self.html, {'files': files})
 
 
-def file_view(request):
+class FileForm(LoginRequiredMixin, View):
     html = "form_view.html"
 
-    if request.method == "POST":
+    def get(self, request):
+        form = TreeForm()
+        return render(request, self.html, {'form': form})
+
+    def post(self, request):
         form = TreeForm(request.POST)
+
         if form.is_valid():
             data = form.cleaned_data
             File.objects.create(
                 name=data['name'],
                 parent=data['parent']
             )
-            return HttpResponseRedirect(reverse("homepage"))
+            return render(request, "success.html")
 
-    form = TreeForm()
+        return render(request, self.html, {'form': form})
 
-    return render(request, html, {'form': form})
+# def file_view(request):
+#     html = "form_view.html"
+
+#     if request.method == "POST":
+#         form = TreeForm(request.POST)
+#         if form.is_valid():
+#             data = form.cleaned_data
+#             File.objects.create(
+#                 name=data['name'],
+#                 parent=data['parent']
+#             )
+#             return HttpResponseRedirect(reverse("homepage"))
+
+#     form = TreeForm()
+
+#     return render(request, html, {'form': form})
 
 
 # def login_view(request):
