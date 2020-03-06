@@ -20,5 +20,9 @@ from hierarchical import views
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('files/', views.show_files)
+    path('', views.show_files, name="homepage"),
+    path('forms/', views.file_view),
+    # path('signup/', views.signup_view),
+    # path('login/', views.login_view),
+    # path('logout/', views.logout_view)
 ]
