@@ -12,8 +12,8 @@ class FilesView(View):
         files = File.objects.all()
         return render(request, self.html, {'files': files})
 
-
-class FileForm(LoginRequiredMixin, View):
+# class FileForm(LoginRequiredMixin, View):
+class FileForm(View):
     html = "form_view.html"
 
     def get(self, request):
