@@ -1,9 +1,11 @@
-Guidelines by Bryan Fernandez
+# Guidelines by Bryan Fernandez
 
-for even more assistance, visits the docs:
+## for even more assistance, visits the docs:
 https://django-mptt.readthedocs.io/en/latest/tutorial.html
 
+```bash
 poetry init
+
 
 install the django-mptt package in poetry
 install django
@@ -16,10 +18,10 @@ python manage.py createsuperuser
 
 python manage.py makemigrations *name here
 python manage.py migrate
-
+```
 
 *Add mptt to installed apps in settings.py file:
-
+```python
 INSTALLED_APPS = (
     'django.contrib.auth',
     # ...
@@ -37,12 +39,13 @@ class Genre(MPTTModel):
 
     class MPTTMeta:
         order_insertion_by = ['name']
+```
 
-
+```bash
 python manage.py makemigrations <your_app>
 python manage.py migrate
-
-
+```
+```html
 {% load mptt_tags %}
 <ul>
     {% recursetree genres %}
@@ -56,6 +59,6 @@ python manage.py migrate
         </li>
     {% endrecursetree %}
 </ul>
-
+```
 and a simple view to show all Objects
 and add a url in urls.py to activate the view method.
